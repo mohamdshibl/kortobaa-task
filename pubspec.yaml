@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.1.3 <4.0.0'
+  sdk: '>=3.1.0 <4.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -41,21 +41,20 @@ dependencies:
   shared_preferences:
   webview_flutter:
   smooth_page_indicator:
-  sizer: ^2.0.15
-  flutter_sizer: ^1.0.5
-  device_preview: ^1.1.0
-  chip_list: ^2.2.3+7
-  intl_phone_field: ^3.1.0
+  sizer:
+  device_preview:
+  chip_list:
+  intl_phone_field:
   easy_stepper:
-  dotted_border: ^2.0.0+3
-  flutter_switch: ^0.3.2
+  flutter_switch:
   http:
   conditional_builder_null_safety:
   auto_size_text:
   connectivity_plus:
   shimmer:
-  fluttertoast: ^8.2.2
+  fluttertoast:
   share_plus:
+  carousel_slider:
 
 dev_dependencies:
   flutter_test:

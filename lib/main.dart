@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-
-import 'features/auth/sign_in/login.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sizer/sizer.dart';
+import 'features/home/cubit/home_cubit.dart';
+import 'features/home/home.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,14 +14,21 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return BlocProvider(
+      create: (_) => HomeCubit()..currentIndex,
+
+      child: Sizer(
+          builder: (context, orientation, deviceType) {
+            return MaterialApp(
+              // initialRoute: ,
+              //locale: DevicePreview.locale(context),
+              //builder: DevicePreview.appBuilder,
+              theme: ThemeData().copyWith(),
+              debugShowCheckedModeBanner: false,
+              home: Home(),
+            );
+          }
       ),
-      home: Login(),
     );
   }
 }
-
