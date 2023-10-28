@@ -15,9 +15,8 @@ class Home extends StatelessWidget {
       builder:(context, state) {
         var cubit = HomeCubit.get(context);
         return Scaffold(
-          body: cubit.screans[cubit.currentIndex],
+          body: cubit.screens[cubit.currentIndex],
 
-          ///  Navigation Bar
           bottomNavigationBar: BottomNavigationBar(
             showUnselectedLabels: true,
             selectedItemColor: const Color(0xFF3366FF),
@@ -26,7 +25,7 @@ class Home extends StatelessWidget {
             onTap: (index) {
               cubit.changeIndexBtmNav(index);
             },
-            items: cubit.b,
+            items: cubit.bottoms,
           ),
         );
       },

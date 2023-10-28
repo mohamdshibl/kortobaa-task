@@ -2,7 +2,10 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kortobaa/features/cart/cart.dart';
 
+import '../../category/category.dart';
+import '../../favorite/favorite.dart';
 import '../home_screen.dart';
 import 'home_state.dart';
 
@@ -13,31 +16,28 @@ class HomeCubit extends Cubit<HomeStates> {
   static HomeCubit get(context) => BlocProvider.of(context);
 
   int currentIndex = 0;
-List<Widget> screans = [
+List<Widget> screens = [
    HomeScreen(),
-  HomeScreen(),
-  HomeScreen(),
+  Category(),
+  Favorites(),
   HomeScreen(),
 
 ];
-List<BottomNavigationBarItem> b = [
-  const BottomNavigationBarItem(
-      label: 'الرئيسيه',
-      icon: Icon(Icons.person),
-      activeIcon: Icon(Icons.kayaking_outlined),
+List<BottomNavigationBarItem> bottoms = const[
+  BottomNavigationBarItem(
+    label: 'Home',
+    icon: Icon(Icons.home),
   ),
   BottomNavigationBarItem(
-      label: 'الاقسام',
-      icon: Icon(Icons.person),
-      activeIcon: Icon(Icons.lock)
+    label: 'Category',
+    icon: Icon(Icons.category),
   ),
   BottomNavigationBarItem(
-      label: 'المفضله',
-      icon: Icon(Icons.person),
-      activeIcon: Icon(Icons.person),
+    label: 'Favorite',
+    icon: Icon(Icons.favorite),
   ),
-  const BottomNavigationBarItem(
-      label: 'الحساب',
+  BottomNavigationBarItem(
+      label: 'Account',
       icon: Icon(Icons.person)
   ),
 ];
@@ -45,7 +45,7 @@ List<BottomNavigationBarItem> b = [
   void changeIndexBtmNav(int index) {
     currentIndex = index;
 
-    emit(HomeSuccessState());
+    emit(ChangeBtmNavState());
   }
 
 }

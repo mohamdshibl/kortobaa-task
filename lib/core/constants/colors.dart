@@ -5,3 +5,4 @@ const black = Color(0xFF000000);
 const mint = Color(0xFF032326);
 const gray = Color(0xFFD4D4D4);
 const gray2 = Color(0xFF000029);
+const darkGray = Color(0xFF032326);
