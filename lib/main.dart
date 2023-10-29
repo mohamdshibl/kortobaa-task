@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
+import 'features/auth/sign_in/login.dart';
+import 'features/auth/sign_up/Register.dart';
 import 'features/favorite/favorite.dart';
 import 'features/home/cubit/home_cubit.dart';
 import 'features/home/home.dart';
@@ -26,7 +28,7 @@ class MyApp extends StatelessWidget {
               //builder: DevicePreview.appBuilder,
               theme: ThemeData().copyWith(),
               debugShowCheckedModeBanner: false,
-              home: const Home(),
+              home: Login(),
             );
           }
       ),

@@ -3,7 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../core/constants/constant.dart';
 import '../../core/utils/utils.dart';
+import '../product_details/product_details.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -205,7 +207,9 @@ class ItemsWidget extends StatelessWidget {
                   ,child: Icon(Icons.favorite_border,color: Colors.orange,)
               ),
               InkWell(
-                onTap: (){},
+                onTap: (){
+                  navigateTo(context,ProductDetails());
+                },
                 child: Container(
                   margin: const EdgeInsets.all(8),
                   child: Image.asset(AssetsImages.ads),
@@ -228,7 +232,9 @@ class ItemsWidget extends StatelessWidget {
                   children: [
                     Text("\$ 25",style:TextStyle(fontWeight: FontWeight.bold,fontSize: 10.sp,color: Colors.blue),),
                     InkWell(
-                      onTap: (){},
+                      onTap: (){
+
+                      },
                       child: const Icon(Icons.shopping_cart_checkout),
                     ),
                   ],

@@ -2,8 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kortobaa/features/cart/cart.dart';
-
+import '../../cart/cart.dart';
 import '../../category/category.dart';
 import '../../favorite/favorite.dart';
 import '../home_screen.dart';
@@ -18,9 +17,9 @@ class HomeCubit extends Cubit<HomeStates> {
   int currentIndex = 0;
 List<Widget> screens = [
    HomeScreen(),
-  Category(),
-  Favorites(),
-  HomeScreen(),
+   Category(),
+   Favorites(),
+   Cart(),
 
 ];
 List<BottomNavigationBarItem> bottoms = const[
