@@ -90,6 +90,21 @@ List<BottomNavigationBarItem> bottoms = const[
       // Handle network errors here
     }
   }
+  Future<void> fetchProductById() async {
+    String url = 'https://flutterapi.kortobaa.net/api/v1/products/2/';
+    try {
+      final response = await networkService.get(url);
+      if (response.statusCode == 200) {
+        final data = response.data;
+        print(data['name']);
+      } else {
+        throw Exception('Failed to fetch product: ${response.statusCode}');
+      }
+    } catch (e) {
+      // Handle the exception
+      print('Error: ${e.toString()}');
+    }
+  }
 
   Future<void> fetchCategories() async {
     const url = 'https://flutterapi.kortobaa.net/api/v1/categories/';
@@ -114,27 +129,6 @@ List<BottomNavigationBarItem> bottoms = const[
     }
   }
 
-  Future<void> fetchProductById(idd) async {
-     var url = 'https://flutterapi.kortobaa.net/api/v1/products/$idd/';
-    try {
-      var response = await networkService.get(url);
-      if (response.statusCode == 200) {
-        final data = response.data;
-        print(data['name']);
-
-      //  var categoryList = (data as List<dynamic>).map((item) =>
-       //     Category.fromJson(item)).toList();
-
-
-        print('shivl==');
-
-      } else {
-        print('Failed to fetch categories: ${response.statusCode}');
-      }
-    } catch (e) {
-      print('Error: $e');
-    }
-  }
 
 
 

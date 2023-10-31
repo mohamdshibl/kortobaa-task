@@ -23,7 +23,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
     int _current = 0;
-var x=0;
+
   final CarouselController _controller = CarouselController();
 
   final List<Image> adsList = [
@@ -33,6 +33,7 @@ var x=0;
 
   @override
   Widget build(BuildContext context) {
+
     var list = [];
     var categoryList=[];
     return BlocConsumer<HomeCubit, HomeStates>(
@@ -42,9 +43,9 @@ var x=0;
 
     list = cubit.proList;
     categoryList= cubit.catList;
-
-    void idd(id) {
-      cubit.fetchProductById(id);
+    var x;
+    void idd(m) {
+      cubit.fetchProductById();
     }
 
     return Scaffold(
@@ -201,10 +202,9 @@ var x=0;
                       itemCount: list.length,
                       itemBuilder: (context, index) => InkWell(
                         onTap: () {
-                        //   navigateTo(
-                        //       context, JobDetail(jobsindex: index));
+                          idd(2);
                          },
-                        child: ItemsWidget(list[index], context),),
+                        child: ItemsWidget(list[index], context,x),),
                       //list[index]
                     ),
                     fallback: (context) => const Center(
@@ -250,10 +250,10 @@ var x=0;
                       itemCount: list.length,
                       itemBuilder: (context, index) => InkWell(
                         onTap: () {
-                          //   navigateTo(
-                          //       context, JobDetail(jobsindex: index));
+
+
                         },
-                        child: ItemsWidget(list[index], context),),
+                        child: ItemsWidget(list[index], context,x),),
                       //list[index]
                     ),
                     fallback: (context) => const Center(
@@ -266,7 +266,88 @@ var x=0;
       ),
     );
     });
+
   }
+    Widget ItemsWidget(list, BuildContext context,x) {
+
+      return Container(
+        width: 40.w,
+        height: 30.h,
+
+        padding: const EdgeInsets.only(left: 10,right: 10,top: 10),
+        margin: const EdgeInsets.symmetric(vertical: 8,horizontal: 10),
+        decoration: BoxDecoration(
+            color: Colors.white ,
+            borderRadius: BorderRadius.circular(20)
+        ),
+        child:  Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Align(
+              alignment: Alignment.topRight
+              ,child: IconButton(
+              onPressed: () {
+                print(list.id);
+
+              },
+              icon: Icon(Icons.favorite_border,
+                color: Colors.orange,
+              ),
+            ),
+
+            ),
+            InkWell(
+              onTap: (){
+                 x= list.id;
+                 print(list.id);
+                navigateTo(context,ProductDetails());
+
+
+              },
+              child: Container(
+                  width: 25.w,
+                  height: 10.h,
+                  child: Image.network('${list.imageLink}',
+                    fit: BoxFit.fill,)
+              ),
+            ),
+            SizedBox(height: 2.h,),
+            Container(
+              padding: EdgeInsets.only(bottom: 1.h),
+              alignment: Alignment.centerLeft,
+              child: Text('${list.name??'shibl'}',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style:TextStyle(fontWeight: FontWeight.bold,
+                    fontSize: 11.sp),
+              ),
+            ),
+            Text('${list.description??'shibl'}',
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,style:TextStyle(fontSize: 7.sp),),
+            SizedBox(height: 1.h,),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 2.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('\$  ${list.price??'65'}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style:TextStyle(fontWeight: FontWeight.bold,fontSize: 10.sp,color: Colors.blue),),
+                  InkWell(
+                    onTap: (){
+
+                    },
+                    child: const Icon(Icons.shopping_cart_checkout),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
 }
 
 
@@ -287,82 +368,7 @@ Widget categoryItemWidget(categoryList, BuildContext context) {
   );
 }
 
-Widget ItemsWidget(list, BuildContext context) {
 
-return Container(
-  width: 40.w,
-      height: 30.h,
-
-      padding: const EdgeInsets.only(left: 10,right: 10,top: 10),
-      margin: const EdgeInsets.symmetric(vertical: 8,horizontal: 10),
-      decoration: BoxDecoration(
-          color: Colors.white ,
-          borderRadius: BorderRadius.circular(20)
-      ),
-      child:  Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-           Align(
-              alignment: Alignment.topRight
-              ,child: IconButton(
-             onPressed: () {
-               print(list.id);
-             },
-             icon: Icon(Icons.favorite_border,
-               color: Colors.orange,
-             ),
-           ),
-
-           ),
-          InkWell(
-            onTap: (){
-             // x= list.id;
-              navigateTo(context,ProductDetails());
-            },
-            child: Container(
-                width: 25.w,
-                  height: 10.h,
-                  child: Image.network('${list.imageLink}',
-                    fit: BoxFit.fill,)
-            ),
-          ),
-          SizedBox(height: 2.h,),
-          Container(
-            padding: EdgeInsets.only(bottom: 1.h),
-            alignment: Alignment.centerLeft,
-            child: Text('${list.name??'shibl'}',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              style:TextStyle(fontWeight: FontWeight.bold,
-                  fontSize: 11.sp),
-            ),
-          ),
-          Text('${list.description??'shibl'}',
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,style:TextStyle(fontSize: 7.sp),),
-          SizedBox(height: 1.h,),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 2.h),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('\$  ${list.price??'65'}',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style:TextStyle(fontWeight: FontWeight.bold,fontSize: 10.sp,color: Colors.blue),),
-                InkWell(
-                  onTap: (){
-
-                  },
-                  child: const Icon(Icons.shopping_cart_checkout),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-}
 
 
 

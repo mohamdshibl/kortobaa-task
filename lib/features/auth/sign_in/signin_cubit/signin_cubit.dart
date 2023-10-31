@@ -3,9 +3,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kortobaa/features/auth/sign_in/signin_cubit/signin_state.dart';
+import '../../../../core/constants/constant.dart';
 import '../../../../model/produt_model/product_model.dart';
 import '../../../../services/remote/dio_helper.dart';
 import '../../../../shared/local_storage/shared_pref.dart';
+import '../../../home/cubit/home_cubit.dart';
+import '../../../home/home.dart';
+import '../../../home/home_screen.dart';
 
 
 class LoginCubit extends Cubit<LoginStates> {
@@ -15,7 +19,7 @@ class LoginCubit extends Cubit<LoginStates> {
 
   static LoginCubit get(context) => BlocProvider.of(context);
 
-
+  HomeCubit? homeCubit;
   String? token;
   final networkService = NetworkService();
 
@@ -29,12 +33,12 @@ class LoginCubit extends Cubit<LoginStates> {
       MyCache.saveData(key: 'token', value: response.data['access']);
       token = MyCache.getData(key: 'token');
       emit(LoginSuccessState());
-      //navigateToAndStop(context, HomeScreen());
-      // getAllJobs();
+      navigateToAndStop(context, Home());
+      homeCubit?.fetchProducts();
     } catch (e) {
       //  showToast(context);
       if (kDebugMode) {
-        print('${e.toString()}');
+        print(e.toString());
       }
       emit(LoginFailureState(errMessage: 'sorry user not exist'));
     }

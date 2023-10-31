@@ -59,8 +59,6 @@ class Login extends StatelessWidget {
           void login(String username,password,) {
             if (_formKey.currentState!.validate()) {
               cubit.login(username,password,context);
-
-              //cubit.getSavedJobs(id);
             }
           }
 

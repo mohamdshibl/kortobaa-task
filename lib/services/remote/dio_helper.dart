@@ -6,13 +6,13 @@ import '../../shared/local_storage/shared_pref.dart';
 class NetworkService {
   final Dio dio = Dio();
 
-     String token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk4MzYzOTQ5LCJpYXQiOjE2OTgzMjc5NDksImp0aSI6IjgxNTJlY2EyZTNmYTQ4Y2FhMmM2Mjk4ZWVlNzRkNTAwIiwidXNlcl9pZCI6NDh9.Lwjpj_hMMzYVS0B7lbEtvELZoG-acOPNTwh2t5ttjUM';
+    // String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk4ODIyNDMyLCJpYXQiOjE2OTg3ODY0MzIsImp0aSI6ImE2ZGQ0YTIyZDc3NDQ2ZGRiYTM2MTQ5ZmMzN2ZlYmY1IiwidXNlcl9pZCI6NTF9.oMgHrcu0sBMiWLgDKyd2VKTtLBNGygtI6Gw_dPQeANQ";
 
-  //String? token = MyCache.getData(key: 'token');
-  // Map<String, dynamic> headers = {
-  //   'Content-Type': 'application/json',
-  //   'Accept': 'application/json',
-  // };
+  String? token = MyCache.getData(key: 'token');
+  Map<String, dynamic> headers = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+  };
 
   Future<Response> get(String url) async {
     try {

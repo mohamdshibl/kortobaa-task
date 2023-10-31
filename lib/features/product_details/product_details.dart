@@ -10,7 +10,8 @@ import '../cart/cart_cubit/cart_cubit.dart';
 import '../cart/cart_cubit/cart_state.dart';
 
 class ProductDetails extends StatelessWidget {
-   ProductDetails({Key? key}) : super(key: key);
+   ProductDetails( {Key? key}) : super(key: key);
+   //var idd = id;
 Product? product;
   @override
   Widget build(BuildContext context) {

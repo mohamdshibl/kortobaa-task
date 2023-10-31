@@ -10,39 +10,50 @@ import 'cubit/home_state.dart';
 class Home extends StatelessWidget {
    Home({Key? key}) : super(key: key);
 
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    //setState(() {
-      _selectedIndex = index;
-    //});
-  }
-
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeCubit,HomeStates>(
       listener: (context, state) {},
       builder:(context, state) {
         var cubit = HomeCubit.get(context);
+
+          cubit.fetchProducts();
         return Scaffold(
           backgroundColor: const Color(0x0ff5f5f9),
           body: cubit.screens[cubit.currentIndex],
 
           bottomNavigationBar:
-
-          BottomNavigationBar(
-            backgroundColor: Colors.white,
-            showUnselectedLabels: true,
-            selectedItemColor: const Color(0xFF0000CE),
-            unselectedItemColor: const Color(0xFF9CA3AF),
-            currentIndex: cubit.currentIndex,
-            onTap: (index) {
-              cubit.changeIndexBtmNav(index);
-            },
-            items: cubit.bottoms,
-         ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+          BottomAppBar(
+            shape: const CircularNotchedRectangle(),
+            color: Colors.red,
+            notchMargin: 2,
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            child: BottomNavigationBar(
+           backgroundColor: Colors.white,
+           enableFeedback: false,
+           showUnselectedLabels: true,
+           selectedFontSize: 12,
+           selectedItemColor: const Color(0xFF0000CE),
+           unselectedItemColor: const Color(0xFF9CA3AF),
+           currentIndex: cubit.currentIndex,
+           onTap: (index) {
+             cubit.changeIndexBtmNav(index);
+           },
+           items: cubit.bottoms,
+        ),
+          ),
+         //  BottomNavigationBar(
+         //    backgroundColor: Colors.white,
+         //    showUnselectedLabels: true,
+         //    selectedItemColor: const Color(0xFF0000CE),
+         //    unselectedItemColor: const Color(0xFF9CA3AF),
+         //    currentIndex: cubit.currentIndex,
+         //    onTap: (index) {
+         //      cubit.changeIndexBtmNav(index);
+         //    },
+         //    items: cubit.bottoms,
+         // ),
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
           floatingActionButton: FloatingActionButton(
             onPressed: () {
              navigateTo(context, Cart());
@@ -57,9 +68,6 @@ class Home extends StatelessWidget {
     );
   }
 }
-
-
-
 
 // class CustomBottomNavigationBar extends StatelessWidget {
 //   final int currentIndex;
