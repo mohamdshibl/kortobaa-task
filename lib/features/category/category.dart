@@ -1,14 +1,27 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../core/utils/utils.dart';
+import '../home/cubit/home_cubit.dart';
+import '../home/cubit/home_state.dart';
 
-class Category extends StatelessWidget {
-   Category({Key? key}) : super(key: key);
+class Categoryy extends StatelessWidget {
+   Categoryy({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    var categoryList=[];
+
+    return BlocConsumer<HomeCubit, HomeStates>(
+        listener: (context, state) {},
+    builder: (context, state) {
+    var cubit = HomeCubit.get(context);
+
+    categoryList= cubit.catList;
+
+    return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.white,
           leading:  const Icon(Icons.menu,color: Colors.black,),
@@ -16,49 +29,75 @@ class Category extends StatelessWidget {
           centerTitle: true,
           actions:  const [Icon(Icons.search,color: Colors.black,),],
         ),
-      body: const Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          children: [
-            ItemsWidget(),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Column(
+            children: [
+
+              SizedBox(
+                width: double.infinity,
+                height: 100.h,
+                child: ConditionalBuilder(
+                    condition: categoryList.isNotEmpty,
+                    builder: (context) => ListView.separated(
+                      scrollDirection: Axis.vertical,
+                      // padding: EdgeInsets.only(left: 16,right: 6),
+                      physics: const BouncingScrollPhysics(),
+                      separatorBuilder: (context, index) =>
+                          SizedBox(
+                            height: 3.h,
+                          ),
+                      itemCount: categoryList.length,
+                      itemBuilder: (context, index) => InkWell(
+                        onTap: () {
+                          //   navigateTo(
+                          //       context, JobDetail(jobsindex: index));
+                        },
+                        child: ItemsWidget(categoryList[index], context),),
+                      //list[index]
+                    ),
+                    fallback: (context) => const Center(
+                        child: CircularProgressIndicator())),
+              ),
+
+            ],
+          ),
         ),
       ),
 
     );
+    });
   }
 }
 
 
-class ItemsWidget extends StatelessWidget {
-  const ItemsWidget({super.key});
+Widget ItemsWidget (categoryList,BuildContext context) {
 
-  @override
-  Widget build(BuildContext context) {
-    return
-      Stack(
+  return Stack(
         children: [
-              SizedBox(
+              Container(
+                width: double.infinity,
                   height: 16.h,
-                  width: double.infinity,
-                  child: const Card(
+                  child:  Card(
                     margin: EdgeInsets.all(.5),
                     elevation: 10,
                     child: Image(
-                      image: AssetImage(AssetsImages.ads),
+                      image:   NetworkImage('${categoryList.imageLink}'),
                       fit: BoxFit.cover,
                     ),
                   ),
                 ),
                Align(
               alignment: Alignment.center,
-              child: Text('T-Shirt',
+              child: Text('${categoryList.name??'shibl'}',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                   style: TextStyle(color: Colors.white,
                       fontSize: 20.sp),
               ),
                 ),
             ],
           );
-  }
 
 }

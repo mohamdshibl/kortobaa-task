@@ -1,23 +1,29 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../core/constants/constant.dart';
 import '../../core/utils/utils.dart';
+import '../auth/sign_in/signin_cubit/signin_cubit.dart';
+import '../auth/sign_in/signin_cubit/signin_state.dart';
 import '../product_details/product_details.dart';
+import 'cubit/home_cubit.dart';
+import 'cubit/home_state.dart';
 
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
-
+  var x=0;
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
     int _current = 0;
-
+var x=0;
   final CarouselController _controller = CarouselController();
 
   final List<Image> adsList = [
@@ -27,6 +33,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var list = [];
+    var categoryList=[];
+    return BlocConsumer<HomeCubit, HomeStates>(
+        listener: (context, state) {},
+        builder: (context, state) {
+    var cubit = HomeCubit.get(context);
+
+    list = cubit.proList;
+    categoryList= cubit.catList;
+
+    void idd(id) {
+      cubit.fetchProductById(id);
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange,
@@ -114,16 +134,32 @@ class _HomeScreenState extends State<HomeScreen> {
                 }).toList(),
               ),
               SizedBox(height: 2.h,),
-              Column(
-                children: [
-                  CircleAvatar(
-                  radius: 25,
-                    backgroundImage: Image.asset(AssetsImages.ads).image,
+              SizedBox(
+                width: double.infinity,
+                height: 15.h,
+                child: ConditionalBuilder(
+                    condition: categoryList.isNotEmpty,
+                    builder: (context) => ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      // padding: EdgeInsets.only(left: 16,right: 6),
+                      physics: const BouncingScrollPhysics(),
+                      separatorBuilder: (context, index) =>
+                          SizedBox(
+                            width: 9.w,
+                          ),
+                      itemCount: categoryList.length,
+                      itemBuilder: (context, index) => InkWell(
+                        onTap: () {
+                          //   navigateTo(
+                          //       context, JobDetail(jobsindex: index));
+                        },
+                        child: categoryItemWidget(categoryList[index], context),),
+                      //list[index]
+                    ),
+                    fallback: (context) => const Center(
+                        child: CircularProgressIndicator())),
               ),
-                  SizedBox(height: 1.h,),
-                  Text('dffff'),
-                ],
-              ),
+              SizedBox(height: 4.h,),
               Row(
                 children: [
                   Text(
@@ -149,7 +185,31 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 ],
               ),
-              const ItemsWidget(),
+              SizedBox(
+                width: double.infinity,
+                height: 35.h,
+                child: ConditionalBuilder(
+                    condition: list.isNotEmpty,
+                    builder: (context) => ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      // padding: EdgeInsets.only(left: 16,right: 6),
+                      physics: const BouncingScrollPhysics(),
+                      separatorBuilder: (context, index) =>
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                      itemCount: list.length,
+                      itemBuilder: (context, index) => InkWell(
+                        onTap: () {
+                        //   navigateTo(
+                        //       context, JobDetail(jobsindex: index));
+                         },
+                        child: ItemsWidget(list[index], context),),
+                      //list[index]
+                    ),
+                    fallback: (context) => const Center(
+                        child: CircularProgressIndicator())),
+              ),
               SizedBox(height: 2.h,),
               Row(
                 children: [
@@ -173,78 +233,204 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),)
                 ],
               ),
-              const ItemsWidget(),
+              SizedBox(height: 4.h,),
+              SizedBox(
+                width: double.infinity,
+                height: 35.h,
+                child: ConditionalBuilder(
+                    condition: list.isNotEmpty,
+                    builder: (context) => ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      // padding: EdgeInsets.only(left: 16,right: 6),
+                      physics: const BouncingScrollPhysics(),
+                      separatorBuilder: (context, index) =>
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                      itemCount: list.length,
+                      itemBuilder: (context, index) => InkWell(
+                        onTap: () {
+                          //   navigateTo(
+                          //       context, JobDetail(jobsindex: index));
+                        },
+                        child: ItemsWidget(list[index], context),),
+                      //list[index]
+                    ),
+                    fallback: (context) => const Center(
+                        child: CircularProgressIndicator())),
+              ),
+
             ],
           ),
         ),
       ),
     );
+    });
   }
 }
 
-class ItemsWidget extends StatelessWidget {
-  const ItemsWidget({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return GridView.count(
-      childAspectRatio: .68,
-      crossAxisCount: 2,
-      shrinkWrap: true,
-      children: [
-        Container(
-          padding: EdgeInsets.only(left: 15,right: 15,top: 10),
-          margin: EdgeInsets.symmetric(vertical: 8,horizontal: 10),
-          decoration: BoxDecoration(
-            color: Colors.white ,
-            borderRadius: BorderRadius.circular(20)
-          ),
-          child:  Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              const Align(
-                alignment: Alignment.topLeft
-                  ,child: Icon(Icons.favorite_border,color: Colors.orange,)
-              ),
-              InkWell(
-                onTap: (){
-                  navigateTo(context,ProductDetails());
-                },
-                child: Container(
-                  margin: const EdgeInsets.all(8),
-                  child: Image.asset(AssetsImages.ads),
-                ),
-              ),
-              SizedBox(height: 3.h,),
-              Container(
-                padding: EdgeInsets.only(bottom: 1.h),
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Product Title',style:TextStyle(fontWeight: FontWeight.bold,fontSize: 11.sp),
-                ),
-              ),
-              Text('Description',style:TextStyle(fontSize: 7.sp),),
-              SizedBox(height: 1.h,),
-              Padding(
-                  padding: EdgeInsets.symmetric(vertical: 2.h),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("\$ 25",style:TextStyle(fontWeight: FontWeight.bold,fontSize: 10.sp,color: Colors.blue),),
-                    InkWell(
-                      onTap: (){
+Widget categoryItemWidget(categoryList, BuildContext context) {
+  return Column(
+    children: [
+      CircleAvatar(
+        radius: 25,
+        backgroundImage: NetworkImage('${categoryList.imageLink}'),
+       // Image.network('${categoryList.imageLink}'),
+      ),
+      SizedBox(height: 2.h,),
+      Text('${categoryList.name??'shibl'}',
+            maxLines: 1,
+               overflow: TextOverflow.ellipsis,
+      )
+    ],
+  );
+}
 
-                      },
-                      child: const Icon(Icons.shopping_cart_checkout),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+Widget ItemsWidget(list, BuildContext context) {
+
+return Container(
+  width: 40.w,
+      height: 30.h,
+
+      padding: const EdgeInsets.only(left: 10,right: 10,top: 10),
+      margin: const EdgeInsets.symmetric(vertical: 8,horizontal: 10),
+      decoration: BoxDecoration(
+          color: Colors.white ,
+          borderRadius: BorderRadius.circular(20)
+      ),
+      child:  Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+           Align(
+              alignment: Alignment.topRight
+              ,child: IconButton(
+             onPressed: () {
+               print(list.id);
+             },
+             icon: Icon(Icons.favorite_border,
+               color: Colors.orange,
+             ),
+           ),
+
+           ),
+          InkWell(
+            onTap: (){
+             // x= list.id;
+              navigateTo(context,ProductDetails());
+            },
+            child: Container(
+                width: 25.w,
+                  height: 10.h,
+                  child: Image.network('${list.imageLink}',
+                    fit: BoxFit.fill,)
+            ),
           ),
-        )
-      ],
+          SizedBox(height: 2.h,),
+          Container(
+            padding: EdgeInsets.only(bottom: 1.h),
+            alignment: Alignment.centerLeft,
+            child: Text('${list.name??'shibl'}',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              style:TextStyle(fontWeight: FontWeight.bold,
+                  fontSize: 11.sp),
+            ),
+          ),
+          Text('${list.description??'shibl'}',
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,style:TextStyle(fontSize: 7.sp),),
+          SizedBox(height: 1.h,),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 2.h),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('\$  ${list.price??'65'}',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style:TextStyle(fontWeight: FontWeight.bold,fontSize: 10.sp,color: Colors.blue),),
+                InkWell(
+                  onTap: (){
+
+                  },
+                  child: const Icon(Icons.shopping_cart_checkout),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
-  }
-
 }
+
+
+
+
+// class ItemsWidget extends StatelessWidget {
+//   ItemsWidget(list,BuildContext context, {super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//
+//     return GridView.count(
+//       childAspectRatio: .68,
+//       crossAxisCount: 2,
+//       shrinkWrap: true,
+//       children: [
+//         Container(
+//           padding: EdgeInsets.only(left: 15,right: 15,top: 10),
+//           margin: EdgeInsets.symmetric(vertical: 8,horizontal: 10),
+//           decoration: BoxDecoration(
+//             color: Colors.white ,
+//             borderRadius: BorderRadius.circular(20)
+//           ),
+//           child:  Column(
+//             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//             children: [
+//               const Align(
+//                 alignment: Alignment.topLeft
+//                   ,child: Icon(Icons.favorite_border,color: Colors.orange,)
+//               ),
+//               InkWell(
+//                 onTap: (){
+//                   navigateTo(context,ProductDetails());
+//                 },
+//                 child: Container(
+//                   margin: const EdgeInsets.all(8),
+//                   child: Image.asset(AssetsImages.ads),
+//                 ),
+//               ),
+//               SizedBox(height: 3.h,),
+//               Container(
+//                 padding: EdgeInsets.only(bottom: 1.h),
+//                 alignment: Alignment.centerLeft,
+//                 child: Text(
+//                   '${list.name}',style:TextStyle(fontWeight: FontWeight.bold,fontSize: 11.sp),
+//                 ),
+//               ),
+//               Text('Description',style:TextStyle(fontSize: 7.sp),),
+//               SizedBox(height: 1.h,),
+//               Padding(
+//                   padding: EdgeInsets.symmetric(vertical: 2.h),
+//                 child: Row(
+//                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                   children: [
+//                     Text("\$ 25",style:TextStyle(fontWeight: FontWeight.bold,fontSize: 10.sp,color: Colors.blue),),
+//                     InkWell(
+//                       onTap: (){
+//
+//                       },
+//                       child: const Icon(Icons.shopping_cart_checkout),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ],
+//           ),
+//         )
+//       ],
+//     );
+//   }
+//
+// }

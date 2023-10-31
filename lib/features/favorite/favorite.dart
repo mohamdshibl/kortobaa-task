@@ -67,7 +67,8 @@ class ItemsWidget extends StatelessWidget {
           SizedBox(height: 2.h),
           Align(
             alignment: Alignment.topLeft,
-            child: Text('5555555lwkdwdmmklaekcflkd 5555555lwkdwdmmklaekcflkdv 5555555lwkdwdmmklaekcflkd',
+            child: Text('5555555lwkdwdmmklaekcflkd 5555555lwkdwdmmklae'
+                'kcflkdv 5555555lwkdwdmmklaekcflkd',
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style:  TextStyle(
