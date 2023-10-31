@@ -4,9 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kortobaa/route/app_route.dart';
 import 'package:kortobaa/shared/local_storage/shared_pref.dart';
 import 'package:sizer/sizer.dart';
+import 'features/auth/profile/profile.dart';
 import 'features/auth/sign_in/login.dart';
 import 'features/auth/sign_in/signin_cubit/signin_cubit.dart';
 import 'features/auth/sign_up/Register.dart';
+import 'features/cart/cart_cubit/cart_cubit.dart';
 import 'features/favorite/favorite.dart';
 import 'features/home/cubit/home_cubit.dart';
 import 'features/home/home.dart';
@@ -28,10 +30,13 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => HomeCubit()..fetchProducts(),
+          create: (context) => HomeCubit()..fetchProducts()..fetchCategories(),
         ),
         BlocProvider(
           create: (context) => LoginCubit(),
+        ),
+        BlocProvider(
+          create: (context) => CartCubit(),
         ),
       ],
       child: Sizer(

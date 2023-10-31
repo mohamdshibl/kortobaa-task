@@ -1,21 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../core/constants/constant.dart';
 import '../../core/utils/utils.dart';
 import '../../custom_widget/custom_widget.dart';
 import '../auth/sign_up/Register.dart';
+import 'cart_cubit/cart_cubit.dart';
+import 'cart_cubit/cart_state.dart';
 
 class Cart extends StatelessWidget {
    Cart({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+   return BlocConsumer<CartCubit, CartState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+    var cubit = CartCubit.get(context);
+
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F9),
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading:  const Icon(Icons.menu,color: Colors.black,),
+        leading:  TextButton(
+          onPressed: (){
+            Navigator.pop(context);
+          },
+          child: const Icon(Icons.arrow_back,color: Colors.blueGrey,),
+        ),
         title:   const Text('Cart',style:TextStyle(color: Colors.black),) ,
         centerTitle: true,
         actions:  const [Icon(Icons.search,color: Colors.black,),],
@@ -98,6 +112,7 @@ class Cart extends StatelessWidget {
         ),
       )
     );
+    });
   }
 }
 
@@ -198,7 +213,6 @@ class ItemsWidget extends StatelessWidget {
           ],
         ),
       ],
-    );
-  }
-
+    );}
 }
+

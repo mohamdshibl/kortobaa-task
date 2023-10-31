@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../model/produt_model/product_model.dart';
 import '../../../services/remote/dio_helper.dart';
-import '../../cart/cart.dart';
+import '../../auth/profile/profile.dart';
 import '../../category/category.dart';
 import '../../favorite/favorite.dart';
 import '../home_screen.dart';
@@ -21,13 +21,20 @@ class HomeCubit extends Cubit<HomeStates> {
   List<Category> catList = [];
   int currentIndex = 0;
 
+
+
 List<Widget> screens = [
    HomeScreen(),
    Categoryy(),
    Favorites(),
-   Cart(),
+  AccountScreen(),
 
 ];
+
+
+
+
+
 List<BottomNavigationBarItem> bottoms = const[
   BottomNavigationBarItem(
     label: 'Home',
@@ -56,17 +63,25 @@ List<BottomNavigationBarItem> bottoms = const[
 
 
   Future<void> fetchProducts() async {
+    List<int?> favoriteList = [];
+
     const url = 'https://flutterapi.kortobaa.net/api/v1/products/';
     try {
       final response = await networkService.get(url);
       if (response.statusCode == 200) {
         final data = response.data;
-        print(data['results'][0]['name']);
+        //print(data['results'][0]['name']);
         var productList = (data['results'] as List<dynamic>).map((item) =>
             Product.fromJson(item)).toList();
         proList = productList;
-        print('shivl==');
-        print(proList[0].imageLink);
+
+         print('shivl==');
+        // print(proList[0].imageLink);
+        productList.forEach((element) {
+         favoriteList.addAll({element.id});
+       });
+     print(favoriteList);
+
       } else {
         print('Failed to fetch data: ${response.statusCode}');
       }

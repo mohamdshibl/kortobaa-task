@@ -5,6 +5,7 @@ class Product {
   String? price;
   String? description;
   String? rate;
+  int? q;
   Category? category;
 
   Product(
@@ -14,6 +15,7 @@ class Product {
         this.price,
         this.description,
         this.rate,
+        this.q,
         this.category});
 
   Product.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class Product {
     price = json['price'];
     description = json['description'];
     rate = json['rate'];
+    q = json['q'];
     category = json['category'] != null
         ? Category.fromJson(json['category'])
         : null;
@@ -36,6 +39,7 @@ class Product {
     data['price'] = price;
     data['description'] = description;
     data['rate'] = rate;
+    data['q'] = q;
     if (category != null) {
       data['category'] = category!.toJson();
     }
