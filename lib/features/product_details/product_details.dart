@@ -6,12 +6,15 @@ import 'package:kortobaa/model/produt_model/product_model.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../core/utils/utils.dart';
+import '../cart/cart.dart';
 import '../cart/cart_cubit/cart_cubit.dart';
 import '../cart/cart_cubit/cart_state.dart';
 
 class ProductDetails extends StatelessWidget {
-   ProductDetails( {Key? key}) : super(key: key);
-   //var idd = id;
+
+  var id ;
+  ProductDetails( {Key? key,required this.id}) : super(key: key);
+ List<dynamic> idList=[];
 Product? product;
   @override
   Widget build(BuildContext context) {
@@ -19,6 +22,13 @@ Product? product;
         listener: (context, state) {},
     builder: (context, state) {
     var cubit = CartCubit.get(context);
+     cubit.fetchProductById(id);
+     idList=cubit.iDList;
+   //  var price = (idList[0]['price']);
+    var productID = idList[0]['id'] ;
+    var productDescription = idList[0]['description'] ;
+    var productImage = idList[0]['image_link'];
+    var productPrice = idList[0]['price'];
 
     return Scaffold(
       backgroundColor:  const Color(0xFFF5F5F9),
@@ -37,10 +47,12 @@ Product? product;
           Flexible(
             flex: 3,
               child: Container(
+                //Image.network('${'https://khodaryonline.com//storage/category/3/N2Ahhm734tcoictpFcGeiQlmkwo62V5BGzKsgmfo.jpg'}',
                    width: double.infinity,
                    height: 40.h,
                   color: Colors.white,
-                child: const Image(image:  AssetImage(AssetsImages.ads),
+                child: Image.network('${idList[0]['image_link']}',
+                  fit: BoxFit.fill,
               ),
                ),
           ),
@@ -54,7 +66,9 @@ Product? product;
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   InkWell(
-                    onTap: (){},
+                    onTap: (){
+
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -65,7 +79,11 @@ Product? product;
                     )
                   ),
                   defaultSeparatorContainer2(),
-                  Text('Added to Favorite',style: TextStyle(fontSize: 12.sp),),
+                  InkWell(onTap: (){
+                    cubit.insertDataBase(id: productID, description: productDescription,
+                        imageLink: productImage, price: productPrice);
+                  },
+                      child: Text('Added to Favorite',style: TextStyle(fontSize: 12.sp),)),
                 ],
               )
               ),
@@ -76,7 +94,7 @@ Product? product;
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     children: [
-                      Text('asJKjkbjaebcajj a JKjkbjaebcajj aJKjkbjaebcajj a'),
+                      Text('${idList[0]['description']}'),
                       SizedBox(height: 2.h,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -84,12 +102,12 @@ Product? product;
                           Row(
                             children: [
                               Icon(Icons.star,color: Colors.yellow,),
-                              Text('4.5',style: TextStyle(fontSize: 12.sp),)
+                              Text('${idList[0]['rate']}',style: TextStyle(fontSize: 12.sp),)
                             ],
                           ),
                           Row(
                             children: [
-                              Text(' \$  199.5',style: TextStyle(fontSize:12.sp,color: Colors.blueAccent),),
+                              Text(' \$  ${idList[0]['price']}',style: TextStyle(fontSize:12.sp,color: Colors.blueAccent),),
                             ],
                           ),
                         ],
@@ -114,6 +132,7 @@ Product? product;
                             width: 45.w,
                             height: 6.h,
                             color: Colors.white,
+                          //(idList[0]['price'])
                             child: Center(child: Text('\$ ${cubit.counter*199}')),
                           ),
                           Row(
@@ -150,10 +169,12 @@ Product? product;
                       SizedBox(height: 3.h,),
                       InkWell(
                         onTap: () {
-                          product?.q =cubit.counter;
-                          cubit.products.add(product!);
-                         print('shib');
-                          showToastWhenRegister(context);
+
+
+
+                          //cubit.insertDataBase();
+                          navigateToAndStop(context, Cart(productId:productID,));
+
                         },
                         child: Container(
                           width: 45.w,

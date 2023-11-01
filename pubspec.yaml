@@ -49,13 +49,13 @@ dependencies:
   flutter_switch:
   http:
   conditional_builder_null_safety:
-  auto_size_text:
   connectivity_plus:
   shimmer:
   fluttertoast:
   share_plus:
   carousel_slider:
   ffi: ^2.1.0
+  sqflite:
 
 dev_dependencies:
   flutter_test:

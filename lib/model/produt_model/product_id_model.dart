@@ -1,4 +1,4 @@
-class CategoryId {
+class ProductId {
   int? id;
   String? name;
   String? imageLink;
@@ -7,7 +7,7 @@ class CategoryId {
   String? rate;
   Category? category;
 
-  CategoryId(
+  ProductId(
       {this.id,
         this.name,
         this.imageLink,
@@ -16,7 +16,7 @@ class CategoryId {
         this.rate,
         this.category});
 
-  CategoryId.fromJson(Map<String, dynamic> json) {
+  ProductId.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     imageLink = json['image_link'];
@@ -29,15 +29,15 @@ class CategoryId {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['id'] = id;
-    data['name'] = name;
-    data['image_link'] = imageLink;
-    data['price'] = price;
-    data['description'] = description;
-    data['rate'] = rate;
-    if (category != null) {
-      data['category'] = category!.toJson();
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['image_link'] = this.imageLink;
+    data['price'] = this.price;
+    data['description'] = this.description;
+    data['rate'] = this.rate;
+    if (this.category != null) {
+      data['category'] = this.category!.toJson();
     }
     return data;
   }
@@ -57,10 +57,10 @@ class Category {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['id'] = id;
-    data['name'] = name;
-    data['image_link'] = imageLink;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['image_link'] = this.imageLink;
     return data;
   }
 }

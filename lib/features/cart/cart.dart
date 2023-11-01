@@ -1,17 +1,21 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
+import 'package:http/http.dart' as http;
 
 import '../../core/constants/constant.dart';
 import '../../core/utils/utils.dart';
 import '../../custom_widget/custom_widget.dart';
-import '../auth/sign_up/Register.dart';
+import '../../shared/local_storage/shared_pref.dart';
 import 'cart_cubit/cart_cubit.dart';
 import 'cart_cubit/cart_state.dart';
 
 class Cart extends StatelessWidget {
-   Cart({Key? key}) : super(key: key);
-
+  var productId;
+   Cart({Key? key, this.productId}) : super(key: key);
+  List<dynamic> idList=[];
   @override
   Widget build(BuildContext context) {
 
@@ -19,6 +23,9 @@ class Cart extends StatelessWidget {
         listener: (context, state) {},
         builder: (context, state) {
     var cubit = CartCubit.get(context);
+
+    cubit.fetchProductById(productId);
+    idList=cubit.iDList;
 
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F9),
@@ -73,7 +80,8 @@ class Cart extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 2.h,),
-              ItemsWidget(),
+
+
               SizedBox(height: 3.h,),
               Container(
                 width: double.infinity,
@@ -117,11 +125,8 @@ class Cart extends StatelessWidget {
 }
 
 
-class ItemsWidget extends StatelessWidget {
-  const ItemsWidget({super.key});
+Widget ItemsWidget (categoryList, BuildContext context){
 
-  @override
-  Widget build(BuildContext context) {
     return Column(
       children: [
         Row(
@@ -213,6 +218,7 @@ class ItemsWidget extends StatelessWidget {
           ],
         ),
       ],
-    );}
-}
+    );
+  }
+
 

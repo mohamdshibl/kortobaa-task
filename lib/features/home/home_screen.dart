@@ -41,12 +41,16 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (context, state) {
     var cubit = HomeCubit.get(context);
 
+    cubit.fetchProducts();
+    cubit.fetchCategories();
+
     list = cubit.proList;
     categoryList= cubit.catList;
     var x;
-    void idd(m) {
-      cubit.fetchProductById();
-    }
+    // void idd(m) {
+    //   print(m);
+    // //  cubit.fetchProducts();
+    // }
 
     return Scaffold(
       appBar: AppBar(
@@ -152,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemBuilder: (context, index) => InkWell(
                         onTap: () {
                           //   navigateTo(
-                          //       context, JobDetail(jobsindex: index));
+                          //       context, JobDetail());
                         },
                         child: categoryItemWidget(categoryList[index], context),),
                       //list[index]
@@ -202,7 +206,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemCount: list.length,
                       itemBuilder: (context, index) => InkWell(
                         onTap: () {
-                          idd(2);
+                         // navigateTo(context,ProductDetails(id:x,) );
                          },
                         child: ItemsWidget(list[index], context,x),),
                       //list[index]
@@ -300,8 +304,9 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: (){
                  x= list.id;
                  print(list.id);
-                navigateTo(context,ProductDetails());
-
+                 Future.delayed(const Duration(seconds: 1), () {
+                   navigateTo(context, ProductDetails(id: x));
+                 });
 
               },
               child: Container(

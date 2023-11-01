@@ -2,9 +2,12 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sqflite/sqflite.dart';
 import '../../../model/produt_model/product_model.dart';
 import '../../../services/remote/dio_helper.dart';
+import '../../../shared/local_storage/database_helper.dart';
 import '../../auth/profile/profile.dart';
+import '../../cart/cart.dart';
 import '../../category/category.dart';
 import '../../favorite/favorite.dart';
 import '../home_screen.dart';
@@ -30,11 +33,6 @@ List<Widget> screens = [
   AccountScreen(),
 
 ];
-
-
-
-
-
 List<BottomNavigationBarItem> bottoms = const[
   BottomNavigationBarItem(
     label: 'Home',
@@ -54,7 +52,7 @@ List<BottomNavigationBarItem> bottoms = const[
   ),
 ];
 
-  void changeIndexBtmNav(int index) {
+void changeIndexBtmNav(int index) {
     currentIndex = index;
 
     emit(ChangeBtmNavState());
@@ -68,41 +66,23 @@ List<BottomNavigationBarItem> bottoms = const[
     const url = 'https://flutterapi.kortobaa.net/api/v1/products/';
     try {
       final response = await networkService.get(url);
+      emit( FetchProductSuccessState());
       if (response.statusCode == 200) {
         final data = response.data;
-        //print(data['results'][0]['name']);
         var productList = (data['results'] as List<dynamic>).map((item) =>
             Product.fromJson(item)).toList();
         proList = productList;
 
-         print('shivl==');
-        // print(proList[0].imageLink);
-        productList.forEach((element) {
-         favoriteList.addAll({element.id});
-       });
-     print(favoriteList);
+       //  print('fetchProducts');
+       //  productList.forEach((element) {favoriteList.addAll({element.id});});
+       // print(favoriteList);
+
 
       } else {
         print('Failed to fetch data: ${response.statusCode}');
       }
     } catch (e) {
       print('Error: $e');
-      // Handle network errors here
-    }
-  }
-  Future<void> fetchProductById() async {
-    String url = 'https://flutterapi.kortobaa.net/api/v1/products/2/';
-    try {
-      final response = await networkService.get(url);
-      if (response.statusCode == 200) {
-        final data = response.data;
-        print(data['name']);
-      } else {
-        throw Exception('Failed to fetch product: ${response.statusCode}');
-      }
-    } catch (e) {
-      // Handle the exception
-      print('Error: ${e.toString()}');
     }
   }
 
@@ -110,14 +90,16 @@ List<BottomNavigationBarItem> bottoms = const[
     const url = 'https://flutterapi.kortobaa.net/api/v1/categories/';
     try {
       final response = await networkService.get(url);
+      emit( FetchProductLoadingState());
       if (response.statusCode == 200) {
         final data = response.data;
         print(data['results'][0]['name']);
 
         var categoryList = (data['results'] as List<dynamic>).map((item) =>
             Category.fromJson(item)).toList();
-
+        emit( FetchProductLoadingState());
         catList = categoryList;
+
         print('shivl==');
         print(catList[0].name);
 
@@ -128,6 +110,9 @@ List<BottomNavigationBarItem> bottoms = const[
       print('Error: $e');
     }
   }
+
+
+
 
 
 

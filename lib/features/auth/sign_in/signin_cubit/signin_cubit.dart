@@ -34,7 +34,7 @@ class LoginCubit extends Cubit<LoginStates> {
       token = MyCache.getData(key: 'token');
       emit(LoginSuccessState());
       navigateToAndStop(context, Home());
-      homeCubit?.fetchProducts();
+       homeCubit?.fetchProducts();
     } catch (e) {
       //  showToast(context);
       if (kDebugMode) {
@@ -72,12 +72,6 @@ class LoginCubit extends Cubit<LoginStates> {
   }
 
 
-
-
-
-
-
-}
   // Future<void> fetchProducts() async {
   //   const url = 'https://flutterapi.kortobaa.net/api/v1/products/';
   //   try {
@@ -86,17 +80,18 @@ class LoginCubit extends Cubit<LoginStates> {
   //       final data = response.data;
   //       //print(data['results'][0]['name']);
   //       final product = Product.fromJson(data);
-  //       List<Product> productList = data.map((item) => Product.fromJson(item)).toList();
+  //       List<Product> productList = data.map((item) => Product.fromJson(item))
+  //           .toList();
   //
-  //       proList = productList;
-  //      } else {
+  //       homeCubit?.proList = productList;
+  //     } else {
   //       print('Failed to fetch data: ${response.statusCode}');
   //     }
   //   } catch (e) {
   //     print('Error: $e');
   //     // Handle network errors here
   //   }
- // }
+  // }
 
 //   Future<Product?> fetchProducts() async {
 //     const url = 'https://flutterapi.kortobaa.net/api/v1/products';
@@ -121,52 +116,51 @@ class LoginCubit extends Cubit<LoginStates> {
 // }
 
 
-
-  // Future<List<Product>> fetchProducts() async {
-  //   final url = 'https://flutterapi.kortobaa.net/api/v1/products/';
-  //     String token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk4MzYzOTQ5LCJpYXQiOjE2OTgzMjc5NDksImp0aSI6IjgxNTJlY2EyZTNmYTQ4Y2FhMmM2Mjk4ZWVlNzRkNTAwIiwidXNlcl9pZCI6NDh9.Lwjpj_hMMzYVS0B7lbEtvELZoG-acOPNTwh2t5ttjUM';
-  //
-  //   try {
-  //     networkService.dio.options.headers['Authorization'] = 'Bearer $token';
-  //     final response = await networkService.get(url);
-  //
-  //     if (response.statusCode == 200) {
-  //       final List<dynamic> productsData = response.data['products'];
-  //
-  //       final List<Product> products = productsData.map((item) => Product.fromJson(item)).toList();
-  //       return products;
-  //     } else {
-  //       throw Exception('Failed to load products');
-  //     }
-  //
-  //   } catch (e) {
-  //     throw e;
-  //   }
-  // }
-  //
-
+// Future<List<Product>> fetchProducts() async {
+//   final url = 'https://flutterapi.kortobaa.net/api/v1/products/';
+//     String token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk4MzYzOTQ5LCJpYXQiOjE2OTgzMjc5NDksImp0aSI6IjgxNTJlY2EyZTNmYTQ4Y2FhMmM2Mjk4ZWVlNzRkNTAwIiwidXNlcl9pZCI6NDh9.Lwjpj_hMMzYVS0B7lbEtvELZoG-acOPNTwh2t5ttjUM';
+//
+//   try {
+//     networkService.dio.options.headers['Authorization'] = 'Bearer $token';
+//     final response = await networkService.get(url);
+//
+//     if (response.statusCode == 200) {
+//       final List<dynamic> productsData = response.data['products'];
+//
+//       final List<Product> products = productsData.map((item) => Product.fromJson(item)).toList();
+//       return products;
+//     } else {
+//       throw Exception('Failed to load products');
+//     }
+//
+//   } catch (e) {
+//     throw e;
+//   }
+// }
+//
 
 
 // Future<List<Product>> fetchProducts() async {
-  //   const url = 'https://flutterapi.kortobaa.net/api/v1/products/';
-  //   String token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk4MzYzOTQ5LCJpYXQiOjE2OTgzMjc5NDksImp0aSI6IjgxNTJlY2EyZTNmYTQ4Y2FhMmM2Mjk4ZWVlNzRkNTAwIiwidXNlcl9pZCI6NDh9.Lwjpj_hMMzYVS0B7lbEtvELZoG-acOPNTwh2t5ttjUM';
-  //   try {
-  //     networkService.dio.options.headers['Authorization'] = 'Bearer $token';
-  //     final response = await networkService.get(url);
-  //     print("shibl11111111111");
-  //
-  //     if (response.statusCode == 200) {
-  //       final Map<String, dynamic> data = response.data;
-  //       if (data.containsKey('products')) {
-  //         final List<dynamic> productsData = data['products'];
-  //
-  //         final List<Product> products = productsData.map((item) => Product.fromJson(item)).toList();
-  //        // return products;
-  //       }
-  //     }
-  //   } catch (e) {
-  //     throw e;
-  //   }
-  // }
+//   const url = 'https://flutterapi.kortobaa.net/api/v1/products/';
+//   String token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk4MzYzOTQ5LCJpYXQiOjE2OTgzMjc5NDksImp0aSI6IjgxNTJlY2EyZTNmYTQ4Y2FhMmM2Mjk4ZWVlNzRkNTAwIiwidXNlcl9pZCI6NDh9.Lwjpj_hMMzYVS0B7lbEtvELZoG-acOPNTwh2t5ttjUM';
+//   try {
+//     networkService.dio.options.headers['Authorization'] = 'Bearer $token';
+//     final response = await networkService.get(url);
+//     print("shibl11111111111");
+//
+//     if (response.statusCode == 200) {
+//       final Map<String, dynamic> data = response.data;
+//       if (data.containsKey('products')) {
+//         final List<dynamic> productsData = data['products'];
+//
+//         final List<Product> products = productsData.map((item) => Product.fromJson(item)).toList();
+//        // return products;
+//       }
+//     }
+//   } catch (e) {
+//     throw e;
+//   }
+// }
 
 
+}

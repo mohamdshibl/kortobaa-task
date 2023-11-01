@@ -2,8 +2,6 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-
-import '../../core/utils/utils.dart';
 import '../home/cubit/home_cubit.dart';
 import '../home/cubit/home_state.dart';
 
@@ -20,6 +18,7 @@ class Categoryy extends StatelessWidget {
     var cubit = HomeCubit.get(context);
 
     categoryList= cubit.catList;
+    cubit.fetchCategories();
 
     return Scaffold(
       appBar: AppBar(
